@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Ganadería</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="undefined_image.png" alt="Logo de Gestión de Ganadería" class="logo">
+        <h1>Gestión de Ganadería</h1>
+    </header>
+
+    <main id="main-content">
+        <!-- Pantalla de Inicio de Sesión -->
+        <section id="login-section">
+            <h2>Iniciar Sesión</h2>
+            <form id="login-form" onsubmit="return loginUser();">
+                <label for="username">Usuario:</label>
+                <input type="text" id="username" placeholder="Ingrese su usuario" required>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" placeholder="Ingrese su contraseña" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+        </section>
+
+        <!-- Menú Principal -->
+        <section id="menu-section" class="hidden">
+            <h2>Menú Principal</h2>
+            <div class="menu-buttons">
+                <button onclick="showSection('vacas')">Vacas</button>
+                <button onclick="showSection('productos-y-vacunas')">Productos y vacunas</button>
+                <button onclick="showSection('control')">Control de Vacas</button>
+                <button onclick="showSection('vacas-disponibles')">Vacas Disponibles</button>
+            </div>
+        </section>
+
+        <!-- Sección de Vacas -->
+        <section id="vacas" class="hidden">
+            <h2>Vacas</h2>
+            <p>Aquí puedes ver la información general sobre las vacas.</p>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Raza</th>
+                        <th>Características</th>
+                        <th>Producción de Leche</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Holstein</td>
+                        <td>Alta producción de leche, adaptada a climas templados.</td>
+                        <td>30 litros/día</td>
+                    </tr>
+                    <tr>
+                        <td>Jersey</td>
+                        <td>Leche con alto contenido de grasa, fácil manejo.</td>
+                        <td>22 litros/día</td>
+                    </tr>
+                    <tr>
+                        <td>Brahman</td>
+                        <td>Resistente al calor y enfermedades.</td>
+                        <td>No aplica (carne)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="back-button" onclick="showMenu()">Volver al Menú Principal</button>
+        </section>
+
+        <!-- Sección de Productos y Vacunas -->
+        <section id="productos-y-vacunas" class="hidden">
+            <h2>Productos y Vacunas</h2>
+            <p>Aquí puedes ver los productos utilizados y las vacunas administradas a las vacas.</p>
+
+            <h3>Productos</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Uso</th>
+                        <th>Cantidad Recomendada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Alimento Concentrado</td>
+                        <td>Mejorar la producción de leche</td>
+                        <td>2 kg/día</td>
+                    </tr>
+                    <tr>
+                        <td>Vitaminas</td>
+                        <td>Refuerzo del sistema inmunológico</td>
+                        <td>10 ml/semana</td>
+                    </tr>
+                    <tr>
+                        <td>Sales Minerales</td>
+                        <td>Balance nutricional</td>
+                        <td>100 g/día</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Vacunas</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Vacuna</th>
+                        <th>Enfermedad</th>
+                        <th>Frecuencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Brucelosis</td>
+                        <td>Brucelosis bovina</td>
+                        <td>Una vez al año</td>
+                    </tr>
+                    <tr>
+                        <td>Aftosa</td>
+                        <td>Fiebre aftosa</td>
+                        <td>Cada 6 meses</td>
+                    </tr>
+                    <tr>
+                        <td>Clostridiosis</td>
+                        <td>Clostridiosis</td>
+                        <td>Cada 6 meses</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="back-button" onclick="showMenu()">Volver al Menú Principal</button>
+        </section>
+
+        <!-- Sección de Control de Vacas -->
+        <section id="control" class="hidden">
+            <h2>Control de Vacas</h2>
+            <p>Aquí puedes gestionar el control de las vacas.</p>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Raza</th>
+                        <th>Vacunas</th>
+                        <th>Alimentación</th>
+                        <th>Producción</th>
+                        <th>Observaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Holstein</td>
+                        <td>Brucelosis: 2024-01-15</td>
+                        <td>Concentrado, Pasto</td>
+                        <td>25 litros/día</td>
+                        <td>Leve cojera en pata trasera.</td>
+                    </tr>
+                    <tr>
+                        <td>Jersey</td>
+                        <td>Aftosa: 2024-06-10</td>
+                        <td>Concentrado, Heno</td>
+                        <td>22 litros/día</td>
+                        <td>En tratamiento con vitaminas.</td>
+                    </tr>
+                    <tr>
+                        <td>Brahman</td>
+                        <td>Clostridiosis: 2024-08-20</td>
+                        <td>Sales Minerales, Pasto</td>
+                        <td>No aplica (carne)</td>
+                        <td>Producción estable.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="back-button" onclick="showMenu()">Volver al Menú Principal</button>
+        </section>
+
+        <!-- Sección de Vacas Disponibles -->
+        <section id="vacas-disponibles" class="hidden">
+            <h2>Vacas Disponibles</h2>
+            <p>Aquí puedes ver las razas de vacas disponibles, sus características y una imagen representativa.</p>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Raza</th>
+                        <th>Características</th>
+                        <th>Imagen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Holstein</td>
+                        <td>Alta producción de leche, adaptada a climas templados.</td>
+                        <td><img src="vacaHolstein.jpg" alt="Vaca Holstein" width="150"></td>
+                    </tr>
+                    <tr>
+                        <td>Jersey</td>
+                        <td>Leche con alto contenido de grasa, fácil manejo.</td>
+                        <td><img src="Jersey.jpg" alt="Vaca Jersey" width="150"></td>
+                    </tr>
+                    <tr>
+                        <td>Brahman</td>
+                        <td>Resistente al calor y enfermedades.</td>
+                        <td><img src="vacaBrahman.jpg" alt="Vaca Brahman" width="150"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="back-button" onclick="showMenu()">Volver al Menú Principal</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            AgroControl es una innovadora plataforma diseñada para optimizar el manejo y control de la ganadería, 
+            ofreciendo herramientas que facilitan la gestión de diversos aspectos clave en la administración del ganado.
+        </p>
+    </footer>
+
+    <script>
+        const fixedUser = {
+            username: "admin",
+            password: "1234"
+        };
+
+        function loginUser() {
+            const inputUsername = document.getElementById("username").value;
+            const inputPassword = document.getElementById("password").value;
+
+            if (inputUsername === fixedUser.username && inputPassword === fixedUser.password) {
+                alert("Inicio de sesión exitoso");
+                document.getElementById("login-section").classList.add("hidden");
+                document.getElementById("menu-section").classList.remove("hidden");
+            } else {
+                alert("Usuario o contraseña incorrectos");
+            }
+            return false;
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('main > section');
+            sections.forEach(section => section.classList.add('hidden'));
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        function showMenu() {
+            const sections = document.querySelectorAll('main > section');
+            sections.forEach(section => section.classList.add('hidden'));
+            document.getElementById('menu-section').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

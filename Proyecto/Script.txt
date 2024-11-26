@@ -1,0 +1,139 @@
+-- Conectar como el nuevo usuario
+
+--Almacena información sobre los usuarios del sistema, como ID, nombre, 
+--correo electrónico, contraseña, rol (ejemplo: administrador o veterinario), 
+--estado activo y fecha de creación.
+-- Tabla de usuarios
+CREATE TABLE USUARIOS (
+    ID_USUARIO NUMBER PRIMARY KEY,
+    NOMBRE VARCHAR2(100),
+    CORREO VARCHAR2(100),
+    CONTRASENA VARCHAR2(100),
+    ROL VARCHAR2(50), -- Ejemplo: administrador, veterinario
+    ACTIVO NUMBER(1) DEFAULT 1,
+    FECHA_CREACION TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+-- Secuencia para autoincrementar ID_USUARIO
+CREATE SEQUENCE SEQ_USUARIOS START WITH 1;
+
+
+--Guarda detalles sobre las vacas, como ID, nombre, edad, peso, salud, estado activo y fecha de registro.
+--La secuencia SEQ_VACAS se utiliza para autoincrementar el ID_VACA.
+-- Tabla de vacas
+CREATE TABLE VACAS (
+    ID_VACA NUMBER PRIMARY KEY,
+    NOMBRE VARCHAR2(100),
+    EDAD NUMBER, -- Edad en meses
+    PESO NUMBER, -- Peso en kilogramos
+    SALUD VARCHAR2(100), -- Estado general de salud
+    ACTIVO NUMBER(1) DEFAULT 1,
+    FECHA_REGISTRO TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Secuencia para autoincrementar ID_VACA
+CREATE SEQUENCE SEQ_VACAS START WITH 1;
+
+
+--Registra las vacunas administradas a las vacas, 
+--incluyendo el tipo de vacuna, la fecha de vacunación, 
+--el veterinario responsable y cualquier observación.
+-- Tabla de vacunas
+CREATE TABLE VACUNAS (
+    ID_VACUNA NUMBER PRIMARY KEY,
+    ID_VACA NUMBER REFERENCES VACAS(ID_VACA),
+    TIPO_VACUNA VARCHAR2(100),
+    FECHA_VACUNACION DATE,
+    VETERINARIO VARCHAR2(100), -- Veterinario responsable
+    OBSERVACIONES VARCHAR2(255)
+);
+
+-- Secuencia para autoincrementar ID_VACUNA
+CREATE SEQUENCE SEQ_VACUNAS START WITH 1;
+
+--Contiene información sobre los reportes generados, con un título, contenido (en formato CLOB) y la fecha de generación.
+--Se asocia cada reporte con un usuario mediante la clave foránea ID_USUARIO, que hace referencia a la tabla USUARIOS.
+-- Tabla de reportes
+CREATE TABLE REPORTES (
+    ID_REPORTE NUMBER PRIMARY KEY,
+    ID_USUARIO NUMBER REFERENCES USUARIOS(ID_USUARIO),
+    TITULO VARCHAR2(100),
+    CONTENIDO CLOB,
+    FECHA_GENERACION TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Secuencia para autoincrementar ID_REPORTE
+CREATE SEQUENCE SEQ_REPORTES START WITH 1;
+
+
+--Registra las acciones realizadas por los usuarios del sistema, como el nombre del usuario, la acción ejecutada y la fecha de la acción.
+--La secuencia SEQ_AUDITORIA se utiliza para autoincrementar el ID_AUDITORIA.
+-- Tabla de auditoría
+CREATE TABLE AUDITORIA (
+    ID_AUDITORIA NUMBER PRIMARY KEY,
+    USUARIO VARCHAR2(100),
+    ACCION VARCHAR2(255),
+    FECHA TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Secuencia para autoincrementar ID_AUDITORIA
+CREATE SEQUENCE SEQ_AUDITORIA START WITH 1;
+
+--TRIGGERS
+
+--Acción: El trigger asigna el valor siguiente de la secuencia SEQ_USUARIOS al campo ID_USUARIO de la nueva fila.
+--La secuencia SEQ_USUARIOS.NEXTVAL asegura que cada nuevo usuario tendrá un ID_USUARIO único y autoincremental.
+-- Trigger para USUARIOS
+CREATE OR REPLACE TRIGGER TRG_USUARIOS_ID
+BEFORE INSERT ON USUARIOS
+FOR EACH ROW
+BEGIN
+    :NEW.ID_USUARIO := SEQ_USUARIOS.NEXTVAL;
+END;
+/
+
+
+--Asigna el valor siguiente de la secuencia SEQ_VACAS al campo ID_VACA de la nueva fila en la tabla VACAS. 
+--Al igual que el anterior, garantiza que cada nueva vaca tendrá un identificador único.
+-- Trigger para VACAS
+CREATE OR REPLACE TRIGGER TRG_VACAS_ID
+BEFORE INSERT ON VACAS
+FOR EACH ROW
+BEGIN
+    :NEW.ID_VACA := SEQ_VACAS.NEXTVAL;
+END;
+/
+
+--Acción: Asigna el siguiente valor de la secuencia SEQ_VACUNAS al campo ID_VACUNA.
+--De este modo, cada nueva vacuna registrada tendrá un `ID_VACUNA único y autoincremental.
+-- Trigger para VACUNAS
+CREATE OR REPLACE TRIGGER TRG_VACUNAS_ID
+BEFORE INSERT ON VACUNAS
+FOR EACH ROW
+BEGIN
+    :NEW.ID_VACUNA := SEQ_VACUNAS.NEXTVAL;
+END;
+/
+
+--Acción: Asigna el siguiente valor de la secuencia SEQ_REPORTES al campo ID_REPORTE, asegurando que cada reporte tiene un identificador único.
+-- Trigger para REPORTES
+CREATE OR REPLACE TRIGGER TRG_REPORTES_ID
+BEFORE INSERT ON REPORTES
+FOR EACH ROW
+BEGIN
+    :NEW.ID_REPORTE := SEQ_REPORTES.NEXTVaAL;
+END;
+/
+
+--Acción: El trigger asigna el valor siguiente de la secuencia SEQ_AUDITORIA al campo ID_AUDITORIA. 
+--Esto garantiza que cada registro de auditoría tendrá un identificador único.
+
+-- Trigger para AUDITORIA
+CREATE OR REPLACE TRIGGER TRG_AUDITORIA_ID
+BEFORE INSERT ON AUDITORIA
+FOR EACH ROW
+BEGIN
+    :NEW.ID_AUDITORIA := SEQ_AUDITORIA.NEXTVAL;
+END;
+/
